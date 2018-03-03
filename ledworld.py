@@ -129,6 +129,7 @@ class LedWorld:
         #     ax.annotate(ixys[0,i], (ixys[1,i], ixys[2,i]))
 
         fig.show()
+        return fig
 
     def to_np(self, includeNan=True):
         res = np.empty((3, self.size(includeNan)), float)
