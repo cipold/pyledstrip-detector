@@ -83,6 +83,9 @@ class Led:
         self.x = x
         self.y = y
 
+    def get_xy(self):
+        return np.array([self.x, self.y])
+
     def to_json(self):
         return {
             "id": self.id,
