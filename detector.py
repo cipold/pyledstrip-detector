@@ -5,7 +5,6 @@ from threading import Thread
 
 import cv2
 import numpy as np
-
 from pyledstrip import LedStrip
 
 
