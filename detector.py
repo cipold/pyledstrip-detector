@@ -5,7 +5,6 @@ from threading import Thread
 
 import cv2
 import numpy as np
-
 from pyledstrip import LedStrip
 
 
@@ -169,9 +168,9 @@ def get_index_positions_json(pixels, led_count):
         success, x, y = get_index_position(pixels, i)
         if success:
             entry = {
-                "id": i,
-                "x": x,
-                "y": y
+                'id': i,
+                'x': x,
+                'y': y
             }
             result.append(entry)
 
@@ -179,7 +178,7 @@ def get_index_positions_json(pixels, led_count):
 
 
 def string_to_file(string, file):
-    with open(file, "w") as text_file:
+    with open(file, 'w') as text_file:
         print(string, file=text_file)
 
 
@@ -240,10 +239,10 @@ def main(args):
     positions = get_index_positions(pixels, strip.led_count)
     print(positions)
 
-    ds = time.strftime("%Y-%m-%dT%H:%M:%S")
-    fn = "data/heightmap.%s.json" % ds
+    ds = time.strftime('%Y-%m-%dT%H:%M:%S')
+    fn = 'data/heightmap.%s.json' % ds
     string_to_file(get_index_positions_json(pixels, strip.led_count), fn)
-    print("exported heightmap to %s" % fn)
+    print('exported heightmap to %s' % fn)
 
     y_min = min([y for (_, y) in positions.values()])
     y_max = max([y for (_, y) in positions.values()])
