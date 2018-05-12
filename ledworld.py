@@ -1,5 +1,5 @@
 import json
-from math import factorial
+from math import factorial, sqrt
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -186,6 +186,33 @@ class LedWorld:
         xys[2, :] = ys2
 
         self.emplace_np(xys)
+
+    def to_metric(self, physical_led_dist=5/300):
+        # get numpy array
+        ledworld_np = self.to_np()
+
+        max_dist_per_led = 0
+        for i in range(1, len(ledworld_np[0])):
+            # calculate section characteristics
+            section_led_count = ledworld_np[0][i] - ledworld_np[0][i - 1]
+            section_x_diff = ledworld_np[1][i] - ledworld_np[1][i - 1]
+            section_y_diff = ledworld_np[2][i] - ledworld_np[2][i - 1]
+            section_len = sqrt(pow(section_x_diff, 2) + pow(section_y_diff, 2))
+            # calculate local distance per led
+            dist_per_led = section_len / section_led_count
+            # compare & set max distance per led accordingly
+            max_dist_per_led = max(dist_per_led, max_dist_per_led)
+
+        # calculate correction factors
+        y_max = max(ledworld_np[2])
+        factor = physical_led_dist / max_dist_per_led
+
+        # apply correction factors
+        ledworld_np[1] = ledworld_np[1] * factor
+        ledworld_np[2] = (y_max - ledworld_np[2]) * factor
+
+
+        self.emplace_np(ledworld_np)
 
     def to_json(self):
         res = [led.to_json() for led in sorted(self.leds.values(), key=lambda l: l.id)]
